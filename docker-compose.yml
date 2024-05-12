@@ -1,32 +1,44 @@
-  version: '3.3'
-  services:
-    app:
-      build: .
-      ports:
-        - "8080:8080"
-      env_file: 
-        - .env
-      environment:
-        SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-        SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
-        SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-        SPRING_APPLICATION_NAME: ${SPRING_APPLICATION_NAME}
-        SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      depends_on:
-        - db
+version: '3.3'
 
-    db:
-      image: postgres:latest
-      env_file:
-        - .env
-      environment:
-        POSTGRES_DB: ${DB_NAME}
-        POSTGRES_USER: ${DB_USERNAME}
-        POSTGRES_PASSWORD: ${DB_PASSWORD}
-      ports:
-        - "5432:5432"
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
+services:
+  app:
+    build: .
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_APPLICATION_NAME: ${SPRING_APPLICATION_NAME}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+    networks:
+      - reverse_proxy
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=reverse_proxy"
+        - "traefik.http.routers.myapp.entrypoints=websecure"
+        - "traefik.http.routers.myapp.rule=Host(`circodelsol.glud.org`)"
+        - "traefik.http.services.myapp.loadbalancer.server.port=8080"
 
-  volumes:
-    postgres_data:
+  db:
+    image: postgres:latest
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - reverse_proxy
+
+networks:
+  reverse_proxy:
+    external: true
+
+volumes:
+  postgres_data:
