@@ -1,0 +1,47 @@
+version: "3.3"
+
+services:
+  app:
+    build: .
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_APPLICATION_NAME: ${SPRING_APPLICATION_NAME}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+    networks:
+      - reverse_proxy
+    deploy:
+      placement:
+        constraints: [node.hostname == glud.udistrital.edu.co]
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=reverse_proxy"
+        - "traefik.http.routers.circodelsol.entrypoints=websecure"
+        - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
+        - "traefik.http.routers.circodelsol.service=circodelsol"
+        - "traefik.http.services.circodelsol.loadbalancer.server.port=8000"
+  db:
+    image: postgres:latest
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - reverse_proxy
+
+networks:
+  reverse_proxy:
+    external:
+      name: reverse_proxy
+
+volumes:
+  postgres_data:
