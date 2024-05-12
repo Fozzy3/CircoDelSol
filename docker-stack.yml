@@ -25,7 +25,7 @@ services:
         - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
         - "traefik.http.services.circodelsol.loadbalancer.server.port=8000"
   db:
-    image: postgres:latest
+    image: postgres:14
     env_file:
       - .env
     environment:
