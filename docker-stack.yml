@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   app:
-    build: .
+    image: circodelsol:latest
     env_file:
       - .env
     environment:
@@ -23,7 +23,6 @@ services:
         - "traefik.docker.network=reverse_proxy"
         - "traefik.http.routers.circodelsol.entrypoints=websecure"
         - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
-        - "traefik.http.routers.circodelsol.service=circodelsol"
         - "traefik.http.services.circodelsol.loadbalancer.server.port=8000"
   db:
     image: postgres:latest
