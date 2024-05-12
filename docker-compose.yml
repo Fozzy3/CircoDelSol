@@ -15,13 +15,6 @@ services:
       - db
     networks:
       - reverse_proxy
-    deploy:
-      labels:
-        - "traefik.enable=true"
-        - "traefik.docker.network=reverse_proxy"
-        - "traefik.http.routers.myapp.entrypoints=websecure"
-        - "traefik.http.routers.myapp.rule=Host(`circodelsol.glud.org`)"
-        - "traefik.http.services.myapp.loadbalancer.server.port=8080"
 
   db:
     image: postgres:latest
@@ -38,7 +31,8 @@ services:
 
 networks:
   reverse_proxy:
-    external: true
+    external:
+      name: reverse_proxy
 
 volumes:
   postgres_data:
