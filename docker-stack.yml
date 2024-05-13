@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.8"
 
 services:
   app:
@@ -24,7 +24,7 @@ services:
         - "traefik.enable=true"
         - "traefik.docker.network=reverse_proxy"
         - "traefik.http.routers.circodelsol.entrypoints=websecure"
-        - "traefik.http.routers.circodelsol.rule=Host(`circodusol.glud.org`)"
+        - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
         - "traefik.http.routers.circodelsol.service=circodelsol"
         - "traefik.http.services.circodelsol.loadbalancer.server.port=8081"
         - "traefik.http.routers.circodelsol.tls=true"
