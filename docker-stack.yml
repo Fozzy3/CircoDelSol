@@ -44,8 +44,7 @@ services:
 
 networks:
   reverse_proxy:
-    external:
-      name: true
+    external: true
 
 volumes:
   postgres_data:
