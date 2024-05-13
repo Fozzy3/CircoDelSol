@@ -1,10 +1,8 @@
 version: "3.8"
 
 services:
-  app:
+  java:
     image: circodelsol:latest
-    ports:
-      - "8081:8080"
     env_file:
       - .env
     environment:
@@ -26,7 +24,7 @@ services:
         - "traefik.http.routers.circodelsol.entrypoints=websecure"
         - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
         - "traefik.http.routers.circodelsol.service=circodelsol"
-        - "traefik.http.services.circodelsol.loadbalancer.server.port=8081"
+        - "traefik.http.services.circodelsol.loadbalancer.server.port=80"
         - "traefik.http.routers.circodelsol.tls=true"
         - "traefik.http.routers.circodelsol.tls.certresolver=production"
   db:
@@ -46,5 +44,3 @@ networks:
   reverse_proxy:
     external: true
 
-volumes:
-  postgres_data:
