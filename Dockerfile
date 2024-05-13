@@ -2,6 +2,7 @@
 FROM maven:3.8.4-openjdk-17-slim AS build
 COPY src /home/app/src
 COPY pom.xml /home/app
+COPY src/main/resources /home/app/src/main/resources
 RUN mvn -f /home/app/pom.xml clean package
 # Using Maven local repo as a Docker volume
 VOLUME /root/.m2
