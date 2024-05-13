@@ -4,7 +4,7 @@ services:
   app:
     image: circodelsol:latest
     ports:
-      - "8080:8080"
+      - "8081:8080"
     env_file:
       - .env
     environment:
@@ -24,9 +24,9 @@ services:
         - "traefik.enable=true"
         - "traefik.docker.network=reverse_proxy"
         - "traefik.http.routers.circodelsol.entrypoints=websecure"
-        - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
+        - "traefik.http.routers.circodelsol.rule=Host(`circodusol.glud.org`)"
         - "traefik.http.routers.circodelsol.service=circodelsol"
-        - "traefik.http.services.circodelsol.loadbalancer.server.port=8080"
+        - "traefik.http.services.circodelsol.loadbalancer.server.port=8081"
         - "traefik.http.routers.circodelsol.tls=true"
         - "traefik.http.routers.circodelsol.tls.certresolver=production"
   db:
