@@ -27,8 +27,8 @@ services:
         - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
         - "traefik.http.routers.circodelsol.service=circodelsol"
         - "traefik.http.services.circodelsol.loadbalancer.server.port=8080"
-        - "traefik.http.routers.portainer.tls=true"
-        - "traefik.http.routers.portainer.tls.certresolver=production"  
+        - "traefik.http.routers.circodelsol.tls=true"
+        - "traefik.http.routers.circodelsol.tls.certresolver=production"
   db:
     image: postgres:14
     env_file:
