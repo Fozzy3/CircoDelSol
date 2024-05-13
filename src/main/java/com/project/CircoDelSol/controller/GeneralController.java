@@ -51,6 +51,11 @@ public class GeneralController {
     }
   }
 
+  @GetMapping("/hello")
+  public ResponseEntity<String> getHello() {
+    return ResponseEntity.ok("Hola Mundo");
+}
+
   @GetMapping("/api/awards")
     public ResponseEntity<ApiResponse<List<AwardDto>>> getAllAwards() {
         ApiResponse<List<AwardDto>> response = awardService.getAllAwards();
