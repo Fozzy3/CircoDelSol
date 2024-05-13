@@ -7,12 +7,6 @@ services:
       - "8080:8080"
     env_file:
       - .env
-    environment:
-        SPRING_DATASOURCE_URL: "jdbc:postgresql://db:5432/circodelsol"
-        SPRING_DATASOURCE_USERNAME: postgres
-        SPRING_DATASOURCE_PASSWORD: password
-        SPRING_APPLICATION_NAME: circodelsol
-        SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       - db
     networks:
@@ -24,7 +18,7 @@ services:
         - "traefik.enable=true"
         - "traefik.docker.network=reverse_proxy"
         - "traefik.http.routers.circodelsol.entrypoints=websecure"
-        - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
+        - "traefik.http.routers.circodelsol.rule=Host(`circodusol.glud.org`)"
         - "traefik.http.routers.circodelsol.service=circodelsol"
         - "traefik.http.services.circodelsol.loadbalancer.server.port=8080"
         - "traefik.http.routers.circodelsol.tls=true"
