@@ -25,7 +25,10 @@ services:
         - "traefik.docker.network=reverse_proxy"
         - "traefik.http.routers.circodelsol.entrypoints=websecure"
         - "traefik.http.routers.circodelsol.rule=Host(`circodelsol.glud.org`)"
-        - "traefik.http.services.circodelsol.loadbalancer.server.port=8080"  # Changed to 8080
+        - "traefik.http.routers.circodelsol.service=circodelsol"
+        - "traefik.http.services.circodelsol.loadbalancer.server.port=8080"
+        - "traefik.http.routers.portainer.tls=true"
+        - "traefik.http.routers.portainer.tls.certresolver=production"  
   db:
     image: postgres:14
     env_file:
@@ -42,7 +45,7 @@ services:
 networks:
   reverse_proxy:
     external:
-      name: reverse_proxy
+      name: true
 
 volumes:
   postgres_data:
