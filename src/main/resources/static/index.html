@@ -13,7 +13,7 @@
 <body>
   <script>
     function preloadImages() {
-      const images = ['./PANTALLA.jpg', './PANTALLA_5.png'];
+      const images = ['./PANTALLA.jpg', './PANTALLA_5.png', './PANTALLA_1.png'];
       images.forEach(image => {
           const img = new Image();
           img.src = image;
@@ -22,6 +22,7 @@
   
   document.addEventListener("DOMContentLoaded", function() {
       preloadImages();
+      precargarUnity()
   });
   </script>
   <div id="preview">
@@ -68,10 +69,6 @@
       </div>
     </div>
     <script>
-
-      const servidor = 'https://circodelsol.glud.org';
-      var unityLoaded = false; // Flag para controlar si Unity está cargado
-
       function showForm() {
         document.getElementById('preview').style.display = 'none';
         document.getElementById('unity-container').style.display = 'block';
@@ -93,24 +90,14 @@
       cuerpo.style.backgroundImage = "url('./PANTALLA_5.png')";
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-      }
-      precargarUnity();
-    });
+      const servidor = 'https://circodelsol.glud.org';
 
-    function precargarUnity() {
-      var script = document.createElement("script");
-      script.src = "Build/Giroscopio.loader.js";
-      script.onload = () => {
-        unityLoaded = true;
-      };
-      document.body.appendChild(script);
-    }
+      function precargarUnity() {
+        var script = document.createElement("script");
+        script.src = "Build/Giroscopio.loader.js";
+        document.body.appendChild(script);
+      }
+
       var startButton = document.getElementById('start-button');
       var container = document.getElementById('unity-container');
       var canvas = document.getElementById('unity-canvas');
@@ -183,7 +170,6 @@
       }
 
       function iniciarUnity() {
-        //if (unityLoaded) { 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
           // Mobile device style: fill the whole browser client area with the game canvas:
           var meta = document.createElement('meta');
@@ -209,7 +195,6 @@
         };
         document.body.appendChild(script);
       }
-//    }
 
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
