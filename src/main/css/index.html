@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-us">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -72,10 +71,12 @@
     }
 
     function beforePlay() {
-
+      var cuerpo = document.body;
+      document.getElementById('unity-container').style.display = 'none';
+      cuerpo.style.backgroundImage = "url('./PANTALLA_5.png')";
     }
 
-      const servidor = 'http://localhost:8080';
+      const servidor = 'https://circodelsol.glud.org';
 
       var startButton = document.getElementById('start-button');
       var container = document.getElementById('unity-container');
@@ -108,9 +109,8 @@
           .then(response => response.json())
           .then(data => {
             if (data.success) {
-              alert("Usuario ya existe. No se puede registrar nuevamente.");
+              beforePlay()
             } else {
-              // Solo llama a crearUsuario si el usuario no existe
               crearUsuario(nombre, cedula, cliente);
             }
           })
