@@ -25,5 +25,4 @@ public class User {
   private String name;
   private Integer identity;
   private String bank;
-  private String prize;
 }

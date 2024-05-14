@@ -89,7 +89,7 @@ public class GeneralController {
   @GetMapping("/api/user/{identity}")
   public ResponseEntity<ApiResponse<UserDto>> getUserById(@PathVariable("identity") Integer identity) {
     ApiResponse<UserDto> response = userService.findByIdentity(identity);
-    return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(response);
+    return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.OK).body(response);
   }
   
 }

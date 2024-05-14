@@ -11,8 +11,7 @@ public class UserMapper {
     user.getId(),
     user.getName(),
     user.getIdentity(),
-    user.getBank(),
-    user.getPrize()
+    user.getBank()
    ); 
   }
 
@@ -21,8 +20,7 @@ public class UserMapper {
       userDto.getId(),
       userDto.getName(),
       userDto.getIdentity(),
-      userDto.getBank(),
-      userDto.getPrize()
+      userDto.getBank()
     );
   }
 }

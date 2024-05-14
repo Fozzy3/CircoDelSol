@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | 360 TODO</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="./styes.css">
+</head>
+
+<body>
+  <div id="preview">
+    <button onclick="showForm()" style="border: none; background: none; padding: 0; cursor: pointer;">
+      <img class="btn-continuar" src="./BOTON_CONTINUAR.png" alt="Enviar">
+    </button>
+  </div>
+
+  <div id="unity-container" class="general">
+    <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1" style="display: none;"></canvas>
+    <div id="unity-loading-bar" style="display: none;">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+
+    <div id="unity-warning"> </div>
+    <div class="">
+      <div class="center-text">
+        <img src="./TEXTO_PRINCIPAL.png" alt="">
+        <img class="registro" src="./REGISTRO.png" alt="">
+        <form class="form-container">
+          <div class="input-group">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+          </div>
+          <div class="input-group">
+            <input type="text" id="Cedula" name="Cedula" placeholder="Cédula" required>
+          </div>
+          <div class="input-group">
+            <select id="cliente" name="cliente" required>
+              <option value="" disabled selected>Selecciona un banco</option>
+              <option value="bogota">Banco de Bogotá</option>
+              <option value="occidente">Banco de Occidente</option>
+              <option value="avvillas">Banco de AV Villas</option>
+              <option value="popular">Banco Popular</option>
+              <option value="dale">dale!</option>
+            </select>
+          </div>
+          <button type="submit" id="start-button" style="border: none; background: none; padding: 0; cursor: pointer;">
+            <img class="btn-continuar" src="./BOTON_CONTINUAR.png" alt="Enviar">
+          </button>
+        </form>
+      </div>
+    </div>
+    <script>
+      function showForm() {
+        document.getElementById('preview').style.display = 'none';
+        document.getElementById('unity-container').style.display = 'block';
+        var cuerpo = document.body;
+        var fondoActual = cuerpo.style.backgroundImage;
+        var i = 0;
+        i = i+1;
+        // Comprueba si el fondo actual es PANTALLA.jpg
+        if (fondoActual.includes("PANTALLA_1.jpg") && i == 1) {
+            cuerpo.style.backgroundImage = "url('./PANTALLA.jpg')";
+        } else {
+            cuerpo.style.backgroundImage = "url('./PANTALLA.jpg')";
+        }
+    }
+
+    function beforePlay() {
+
+    }
+
+      const servidor = 'http://localhost:8080';
+
+      var startButton = document.getElementById('start-button');
+      var container = document.getElementById('unity-container');
+      var canvas = document.getElementById('unity-canvas');
+      var loadingBar = document.getElementById('unity-loading-bar');
+      var progressBarFull = document.getElementById('unity-progress-bar-full');
+      var warningBanner = document.getElementById('unity-warning');
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/Giroscopio.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/Giroscopio.data",
+        frameworkUrl: buildUrl + "/Giroscopio.framework.js",
+        codeUrl: buildUrl + "/Giroscopio.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Glud",
+        productName: "360 TODO",
+        productVersion: "0.1",
+        showBanner: unityShowBanner,
+      };
+
+      document.querySelector('.form-container').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var nombre = document.getElementById('nombre').value;
+        var cedula = document.getElementById('Cedula').value;
+        var cliente = document.getElementById('cliente').value;
+
+        // Primero verifica si el usuario ya existe
+        fetch(`${servidor}/api/user/${cedula}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("Usuario ya existe. No se puede registrar nuevamente.");
+            } else {
+              // Solo llama a crearUsuario si el usuario no existe
+              crearUsuario(nombre, cedula, cliente);
+            }
+          })
+          .catch(error => {
+            console.error('Error al verificar el usuario:', error);
+            alert("Hubo un error al verificar el usuario.");
+          });
+      });
+
+      function crearUsuario(nombre, cedula, cliente) {
+        const datosUsuario = {
+          name: nombre,
+          identity: cedula,
+          bank: cliente
+        };
+
+        // Llama a la API para crear el usuario
+        fetch(`${servidor}/api/user`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(datosUsuario)
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              iniciarUnity()
+            } else {
+              throw new Error(data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error al crear el usuario:', error);
+            alert("Hubo un error al registrar al usuario.");
+          });
+      }
+
+      function iniciarUnity() {
+        startButton.style.display = 'none'; // Ocultar el botón de inicio
+        canvas.style.display = 'block'; // Mostrar el canvas
+        loadingBar.style.display = "block"; // Mostrar la barra de carga
+
+        var script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+          createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = 100 * progress + "%";
+          }).then((unityInstance) => {
+            loadingBar.style.display = "none";
+          }).catch((message) => {
+            alert(message);
+          });
+        };
+        document.body.appendChild(script);
+      }
+
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function () {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+    </script>
+
+</body>
+
+</html>
