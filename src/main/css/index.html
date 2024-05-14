@@ -11,6 +11,20 @@
 </head>
 
 <body>
+  <script>
+    function preloadImages() {
+      const images = ['./PANTALLA.jpg', './PANTALLA_5.png', './PANTALLA_1.png'];
+      images.forEach(image => {
+          const img = new Image();
+          img.src = image;
+      });
+  }
+  
+  document.addEventListener("DOMContentLoaded", function() {
+      preloadImages();
+      precargarUnity()
+  });
+  </script>
   <div id="preview">
     <button onclick="showForm()" style="border: none; background: none; padding: 0; cursor: pointer;">
       <img class="btn-continuar" src="./BOTON_CONTINUAR.png" alt="Enviar">
@@ -77,6 +91,12 @@
     }
 
       const servidor = 'https://circodelsol.glud.org';
+
+      function precargarUnity() {
+        var script = document.createElement("script");
+        script.src = "Build/Giroscopio.loader.js";
+        document.body.appendChild(script);
+      }
 
       var startButton = document.getElementById('start-button');
       var container = document.getElementById('unity-container');
