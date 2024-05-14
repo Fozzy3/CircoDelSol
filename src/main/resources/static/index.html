@@ -11,6 +11,19 @@
 </head>
 
 <body>
+  <script>
+    function preloadImages() {
+      const images = ['./PANTALLA.jpg', './PANTALLA_5.png'];
+      images.forEach(image => {
+          const img = new Image();
+          img.src = image;
+      });
+  }
+  
+  document.addEventListener("DOMContentLoaded", function() {
+      preloadImages();
+  });
+  </script>
   <div id="preview">
     <button onclick="showForm()" style="border: none; background: none; padding: 0; cursor: pointer;">
       <img class="btn-continuar" src="./BOTON_CONTINUAR.png" alt="Enviar">
@@ -98,10 +111,6 @@
       };
       document.body.appendChild(script);
     }
-
-
-
-
       var startButton = document.getElementById('start-button');
       var container = document.getElementById('unity-container');
       var canvas = document.getElementById('unity-canvas');
@@ -174,7 +183,7 @@
       }
 
       function iniciarUnity() {
-        if (unityLoaded) { // Comprueba si los recursos de Unity están cargados
+        //if (unityLoaded) { 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
           // Mobile device style: fill the whole browser client area with the game canvas:
           var meta = document.createElement('meta');
@@ -200,7 +209,7 @@
         };
         document.body.appendChild(script);
       }
-    }
+//    }
 
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
