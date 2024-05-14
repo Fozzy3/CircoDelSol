@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | 360 TODO</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="./styes.css">
+</head>
+<body>
+  <div id="unity-container general">
+    <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1" style="display: none;"></canvas>
+    <div id="unity-loading-bar" style="display: none;">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+    <div id="unity-warning"> </div>
+    <div class="">
+      <div class="center-text">
+        <img src="./TEXTO PRINCIPAL.png" alt="">
+        <img class="registro" src="./REGISTRO.png" alt="">
+        <form>
+          <div class="input-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Nombre">
+          </div>
+          <div class="input-group">
+              <label for="cedula">Cédula</label>
+              <input type="text" id="cedula" name="cedula" placeholder="Cédula">
+          </div>
+          <div class="input-group">
+              <label for="cliente">Cliente</label>
+              <select id="cliente" name="cliente">
+                  <option value="bogota">Banco de Bogotá</option>
+                  <option value="occidente">Banco de Occidente</option>
+                  <option value="avvillas">Banco de AV Villas</option>
+                  <option value="popular">Banco Popular</option>
+                  <option value="dale">dale!</option>
+              </select>
+          </div>
+          <button type="submit">Enviar</button>
+      </form>
+      </div>
+      <button id="start-button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">Iniciar Juego</button>
+    </div>
+    <!-- Botón para iniciar el juego -->
+  </div>
+</body>
+</html>

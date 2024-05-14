@@ -1,0 +1,78 @@
+html, body {
+  height: 100%; 
+  margin: 0; 
+  padding: 0; 
+  overflow: hidden; 
+}
+
+body {
+  background-image: url('./PANTALLA.jpg'); 
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center center; 
+  min-width: 100vw; 
+  min-height: 100vh; 
+}
+
+.center-text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10vh;
+  flex-direction: column;
+}
+
+.registro{
+  margin-top: 90px;
+}
+
+.form-container {
+  width: 60%;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+select {
+  cursor: pointer;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #0066ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0051cc;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}

@@ -14,5 +14,4 @@ public class UserDto {
   private String name;
   private Integer identity;
   private String bank;
-  private String prize;
 }
